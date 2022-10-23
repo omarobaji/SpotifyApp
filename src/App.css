@@ -1,38 +1,32 @@
-.App {
-  text-align: center;
-}
+@import "./components/home.css";
+@import "./components//Header/header.css";
+@import "./components/ArtistSearch/artistsearch.css";
+@import "./components/SpecificArtistPage/specificartistpage.css";
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+input:focus {
+    outline: none;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+::placeholder {
+    text-align: center;
+    font-weight: 400;
+    font-size: 22px;
+    color: #131313 !important;
+ }
+ 
+ /* or, for legacy browsers */
+ 
+ ::-webkit-input-placeholder {
+    text-align: center;
+ }
+ 
+ :-moz-placeholder { /* Firefox 18- */
+    text-align: center;  
+ }
+ 
+ ::-moz-placeholder {  /* Firefox 19+ */
+    text-align: center;  
+ }
+ 
+ :-ms-input-placeholder {  
+    text-align: center; 
+ }

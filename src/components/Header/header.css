@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+}
+.headerContainer {
+    padding: 24px 0px 24px 34px;
+    background: #D3D3D3;
+    border-bottom: solid 1px;
+    border-top: solid 1px;
+    border-color: #808080;
+}
+.text {
+    color: #131313;
+    font-size: 24px;
+    font-weight: 500;
+    word-spacing: 3px;
+    line-height: 20px;
+
+
+}

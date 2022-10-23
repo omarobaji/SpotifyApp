@@ -1,0 +1,29 @@
+.centeredContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: yellow;
+    height: 100%;
+}
+.centerScreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 70vh;
+}
+
+.loginAnchor {
+    padding: 12px;
+    border: solid 1px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #808080;
+}
+
+.textContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
