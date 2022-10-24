@@ -1,13 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+import React, { useState, useEffect } from "react";
 import StarRatings from 'react-star-ratings';
 import axios from 'axios';
 import { BsSearch } from 'react-icons/bs';
 import { useNavigate, Link } from 'react-router-dom';
-// import { Redirect } from 'react-router';
 import { useAuthenticator } from "../../contexts/AuthContext";
-import useLastSearchQuery from "../../hooks/useLastSearchQuery";
 
 const calculateArtistRating = (artistPopularity) => {
   // artist popularity is a % from 0-100
@@ -17,15 +13,9 @@ const calculateArtistRating = (artistPopularity) => {
 };
 const ArtistSearch = () => {
   const { authToken, updateAuthToken } = useAuthenticator();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [searchText, setSearchText] = useState(null);
-  const [redirectParams, setRedirectParams] = useState({ redirect: false });
   const [artists, setArtists] = useState([]);
-  const { latestQuery, refreshStoredSearch } = useLastSearchQuery();
-
-  useEffect(() => {
-    setSearchText(latestQuery);
-  }, [latestQuery]);
 
   useEffect(() => {
     if (searchText === null){
@@ -34,7 +24,7 @@ const ArtistSearch = () => {
     }
     async function getArtists(){
       try {
-      const {data} = await axios.get("https://api.spotify.com/v1/search", {
+      const { data } = await axios.get("https://api.spotify.com/v1/search", {
           headers: {
               Authorization: `Bearer ${authToken}`
           },
@@ -44,13 +34,11 @@ const ArtistSearch = () => {
           }
         });
         setArtists(data.artists.items);
-        console.log(data.artists.items);
-        refreshStoredSearch(searchText);
       } catch (err) {
         if (err.response.status === 401) {
           // token expired...
           // usually, a token is validated onLoad of the website.
-          updateAuthToken(null, null);
+          updateAuthToken(null);
           navigate('/');
         }
       }
@@ -58,13 +46,6 @@ const ArtistSearch = () => {
     getArtists();
   }, [updateAuthToken, authToken, searchText, navigate]);
 
-  const handleClick = useCallback((artistName, artistID) => {
-    setRedirectParams({ redirect: true, name: artistName, id: artistID});
-  }, []);
-
-  // if(redirectParams.redirect) {
-  //   return <Redirect to={`/artist/${redirectParams?.name}/${redirectParams?.id}`} />
-  // }
   return (
     <div style={{ padding: 16 }}>
       <div className="d-flex parentSearchContainer">
@@ -83,7 +64,7 @@ const ArtistSearch = () => {
               <Link key={artist?.id} to={`/artist/${artist?.name}/${artist?.id}`} className="artistAnchor">
                 <div className="cardContainer">
                   <div style={{ height: '16rem' }}>
-                  <img src={artist?.images[0]?.url} />
+                  <img src={artist?.images[0]?.url} alt={`${artist.name}`} />
                   </div>
                   <div className="cardBody">
                     <p className="artistName">{artist.name}</p>

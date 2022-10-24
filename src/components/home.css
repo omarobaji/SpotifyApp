@@ -8,6 +8,7 @@
 .centerScreen {
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     text-align: center;
     min-height: 70vh;

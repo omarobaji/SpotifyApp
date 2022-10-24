@@ -28,15 +28,15 @@
     border-radius: 8px;
     border-color: #D0D0D0;
 }
-.gap {
-    gap: 20px;
-}
 .artistName {
     font-size: 22px;
 }
 .artistAnchor {
     text-decoration: none;
     color: #131313;
+}
+.gap {
+    gap: 20px;
 }
 a:hover {
     color: #131313;
@@ -49,4 +49,9 @@ img {
 .cardBody {
     padding-left: 16px;
     padding-top: 16px;
+}
+@media only screen and (max-width: 600px) {
+    .searchInputBox {
+        width: 18rem;
+    }
 }

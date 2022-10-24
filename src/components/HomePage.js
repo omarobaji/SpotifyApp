@@ -7,7 +7,7 @@ const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
 const RESPONSE_TYPE = "token"
 
 const HomePage = () => {
-  const { updateAuthToken, loggedIn, authToken } = useAuthenticator();
+  const { updateAuthToken, loggedIn, errorMessage } = useAuthenticator();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,9 +15,8 @@ const HomePage = () => {
     let token = window.localStorage.getItem('authentication_token');
     if (token === null && hash) {
         token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1];
-        const expiry = hash.substring(1).split("&").find(elem => elem.startsWith("expires_in")).split("=")[1];
         window.location.hash = ""
-        updateAuthToken(token, expiry);
+        updateAuthToken(token);
     }
   }, [updateAuthToken])
 
@@ -26,7 +25,7 @@ const HomePage = () => {
     // else send them to the search page instantly...
     if (!loggedIn) return;
     navigate('/search');
-  }, [loggedIn]);
+  }, [loggedIn, navigate]);
 
   return (
     <div className="centerScreen">
@@ -40,6 +39,7 @@ const HomePage = () => {
 
        </div>
       </a>
+      {errorMessage && <h1 style={{ color: 'red' }}>{errorMessage}</h1>}
     </div>
   );
 };

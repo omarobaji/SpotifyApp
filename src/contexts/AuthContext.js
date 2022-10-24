@@ -8,28 +8,30 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'set-auth-token': return { ...state, authToken: action.token };
     case 'clear-auth-token': return { ...state, authToken: null };
+    case 'action-failed': return { ...state, errorMessage: action.message };
     default: throw new Error(`Unhandled action ${action.type}!`);
   }
 };
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {
-    authToken: null
+    authToken: null,
+    errorMessage: null
   });
-  const { authToken } = state;
-  const updateAuthToken = useCallback((token, expiry) => {
+  const { authToken, errorMessage } = state;
+
+  const updateAuthToken = useCallback((token) => {
     try {
       if (token == null) {
         localStorage.removeItem(KEY);
         dispatch({ type: 'clear-auth-token' });
       } else {
-        localStorage.setItem(KEY, JSON.stringify({ token: token, expires_in: expiry }));
-        console.log(token, ' token before setting');
+        localStorage.setItem(KEY, JSON.stringify({ token: token }));
         dispatch({ type: 'set-auth-token', token: token });
       }
       return true;
     } catch (error) {
-      console.log(error.message);
+      dispatch({ type: 'action-failed', message: error.message});
       return false;
     }
   }, []);
@@ -44,7 +46,7 @@ export const AuthProvider = ({ children }) => {
         const authTokenInfo = JSON.parse(authTokenFromStorage);
         dispatch({ type: 'set-auth-token', token: authTokenInfo.token });
       } catch (error) {
-        console.log(error.message);
+        dispatch({ type: 'action-failed', message: error.message });
       }
     };
     getAuthToken();
@@ -56,9 +58,10 @@ export const AuthProvider = ({ children }) => {
     return {
       loggedIn,
       authToken,
+      errorMessage,
       updateAuthToken
     };
-  }, [loggedIn, authToken, updateAuthToken]);
+  }, [loggedIn, authToken, errorMessage, updateAuthToken]);
 
   return (
     <AuthContext.Provider value={value}>
